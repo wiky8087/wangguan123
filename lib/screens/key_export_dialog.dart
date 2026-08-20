@@ -41,8 +41,7 @@ class _KeyExportDialogState extends State<KeyExportDialog> {
     return AlertDialog(
       title: Row(
         children: [
-          Icon(Icons.file_download_outlined,
-              color: Theme.of(context).colorScheme.primary),
+          const Icon(Icons.file_download_outlined, color: Colors.indigo),
           const SizedBox(width: 8),
           Text(L10n.tr('导出全部 Key')),
         ],
@@ -58,10 +57,7 @@ class _KeyExportDialogState extends State<KeyExportDialog> {
               width: double.infinity,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Theme.of(context)
-                    .colorScheme
-                    .primaryContainer
-                    .withValues(alpha: 0.3),
+                color: Colors.indigo.withOpacity(0.06),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
@@ -82,13 +78,9 @@ class _KeyExportDialogState extends State<KeyExportDialog> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .shadow
-                      .withValues(alpha: 0.05),
+                  color: Colors.black.withOpacity(0.05),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.outlineVariant),
+                  border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: SingleChildScrollView(
                   child: SelectableText(

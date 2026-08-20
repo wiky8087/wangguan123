@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:relaygo/app.dart';
+import 'package:relaygo/config/theme.dart';
 import 'package:relaygo/models/request_log.dart';
 import 'package:relaygo/services/log_service.dart';
 import 'package:relaygo/utils/formatters.dart';
@@ -159,18 +160,18 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
               children: [
                 Text(
                   Formatters.formatDate(DateTime.now().millisecondsSinceEpoch),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 11.5,
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    color: AppTheme.text2,
                   ),
                 ),
                 const Spacer(),
                 Text(
                   L10n.fmt('{n} 条记录', {'n': '${_logs.length}'}),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 11.5,
-                    color: Theme.of(context).colorScheme.outline,
+                    color: AppTheme.text3,
                   ),
                 ),
               ],
@@ -180,10 +181,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
             child: _logs.isEmpty
                 ? Center(
                     child: Text(L10n.tr('暂无匹配日志'),
-                        style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant)),
+                        style: const TextStyle(color: Colors.grey)),
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -213,7 +211,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).colorScheme.outline),
+        border: Border.all(color: AppTheme.borderStrong),
         borderRadius: BorderRadius.circular(8),
       ),
       child: DropdownButtonFormField<String>(
@@ -223,9 +221,8 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
           labelText: label,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-          labelStyle: TextStyle(
-              fontSize: 13,
-              color: Theme.of(context).colorScheme.onSurfaceVariant),
+          labelStyle:
+              const TextStyle(fontSize: 13, color: AppTheme.text2),
           floatingLabelBehavior: FloatingLabelBehavior.never,
         ),
         items: items,

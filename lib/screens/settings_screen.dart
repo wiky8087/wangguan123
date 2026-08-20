@@ -28,7 +28,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   late String _host;
   late String _strategy;
   late String _lang;
-  late String _themeMode;
   late bool _appLock;
   // 更新：GitHub 发布仓库（方案一 owner/repo）
   late String _githubRepo;
@@ -103,7 +102,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _host = s.host;
     _strategy = s.loadBalanceStrategy;
     _lang = s.language;
-    _themeMode = s.themeMode;
     _appLock = s.appLockEnabled;
     _logRetentionDays = s.logRetentionDays;
     _maxLogEntries = s.maxLogEntries;
@@ -220,7 +218,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       host: _host,
       loadBalanceStrategy: _strategy,
       language: _lang,
-      themeMode: _themeMode,
       appLockEnabled: _appLock,
       logRetentionDays:
           int.tryParse(_logRetentionCtrl.text) ?? _logRetentionDays,
@@ -621,7 +618,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     max: 1.0,
                     divisions: 8,
                     label: '${(_floatingBallOpacity * 100).toStringAsFixed(0)}%',
-                    activeColor: Theme.of(context).colorScheme.primary,
+                    activeColor: AppTheme.brandGreen,
                     onChanged: (v) =>
                         setState(() => _floatingBallOpacity = v),
                   ),
@@ -630,34 +627,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ]),
           _section(t.t('外观与安全')),
           _card([
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-              leading: const Icon(Icons.dark_mode_outlined, size: 20),
-              title: Text(
-                L10n.tr('主题模式'),
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w600),
-              ),
-              trailing: _select<String>(
-                value: _themeMode,
-                items: [
-                  DropdownMenuItem(
-                      value: 'system', child: Text(L10n.tr('跟随系统'))),
-                  DropdownMenuItem(
-                      value: 'light', child: Text(L10n.tr('浅色模式'))),
-                  DropdownMenuItem(
-                      value: 'dark', child: Text(L10n.tr('深色模式'))),
-                ],
-                onChanged: (v) async {
-                  if (v == null) return;
-                  setState(() => _themeMode = v);
-                  final app =
-                      Provider.of<AppState>(context, listen: false);
-                  await app
-                      .saveSettings(app.settings.copyWith(themeMode: v));
-                },
-              ),
-            ),
             _row(
               title: t.t('语言'),
               trailing: _select<String>(
@@ -684,14 +653,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _section(t.t('关于')),
           _card([
             _row(
-              leading: Icon(Icons.info_outline,
-                  size: 20, color: Theme.of(context).colorScheme.primary),
+              leading: const Icon(Icons.info_outline,
+                  size: 20, color: AppTheme.brandGreen),
               title: Constants.appName,
               subtitle: 'v${Constants.appVersion}',
-              trailing: _chip(
-                  L10n.tr('最新版'),
-                  Theme.of(context).colorScheme.surfaceContainerLow,
-                  Theme.of(context).colorScheme.onSurfaceVariant),
+              trailing: _chip(L10n.tr('最新版'), AppTheme.surface2, AppTheme.text2),
             ),
             _row(
               title: t.t('检查更新'),
@@ -759,37 +725,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.only(top: 14, bottom: 6),
         child: Text(
           title.toUpperCase(),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.04,
-            color: Theme.of(context)
-                .colorScheme
-                .primary
-                .withValues(alpha: 0.8),
+            color: Color(0xFF006B3F),
           ),
         ),
       );
 
   // ———————— 卡片（对应设计稿 m3-card，行间分隔线）———————
   Widget _card(List<Widget> rows) {
-    final cs = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        color: cs.surface,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: cs.outlineVariant),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+        border: Border.all(color: AppTheme.border),
       ),
       child: Column(
         children: List.generate(rows.length, (i) {
           return Column(
             children: [
               if (i > 0)
-                Divider(
-                    height: 1,
-                    thickness: 1,
-                    indent: 16,
-                    color: cs.outlineVariant),
+                const Divider(
+                    height: 1, thickness: 1, indent: 16, color: AppTheme.border),
               rows[i],
             ],
           );
@@ -815,17 +774,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(title,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.onSurface)),
+                        color: AppTheme.text)),
                 if (subtitle != null) ...[
                   const SizedBox(height: 2),
                   Text(subtitle,
-                      style: TextStyle(
-                          fontSize: 12,
-                          color:
-                              Theme.of(context).colorScheme.onSurfaceVariant)),
+                      style: const TextStyle(
+                          fontSize: 12, color: AppTheme.text2)),
                 ],
               ],
             ),
@@ -841,15 +798,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        color: AppTheme.surface2,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: AppTheme.monoFontFamily,
           fontSize: 12,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          color: AppTheme.text2,
         ),
       ),
     );
@@ -874,7 +831,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Switch(
       value: value,
       onChanged: onChanged,
-      activeTrackColor: Theme.of(context).colorScheme.primary,
+      activeTrackColor: AppTheme.brandGreen,
     );
   }
 
@@ -941,10 +898,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           isDense: true,
           items: items,
           onChanged: onChanged,
-          style: TextStyle(
-              fontSize: 13,
-              color: Theme.of(context).colorScheme.onSurface,
-              fontWeight: FontWeight.w600),
+          style: const TextStyle(
+              fontSize: 13, color: AppTheme.text, fontWeight: FontWeight.w600),
           icon: const Icon(Icons.expand_more, size: 18),
         ),
       ),
@@ -974,7 +929,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         max: max,
         divisions: divisions,
         label: label,
-        activeColor: Theme.of(context).colorScheme.primary,
+        activeColor: AppTheme.brandGreen,
         onChanged: onChanged,
       ),
     );
@@ -1053,9 +1008,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 6),
             Text(
               L10n.tr('留空将回退到静态更新清单'),
-              style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+              style: const TextStyle(fontSize: 12, color: AppTheme.text2),
             ),
           ],
         ),

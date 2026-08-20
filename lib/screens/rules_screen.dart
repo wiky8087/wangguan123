@@ -32,8 +32,7 @@ class RulesScreen extends StatelessWidget {
                   L10n.tr('还没有规则。\n规则可在「请求路径 / 模型名 / 大小 / 时段 / IP / Token 数」等维度'
                       '智能路由请求到指定提供商或 key 分组。'),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ),
             )
@@ -163,9 +162,7 @@ class RulesScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(condError!,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
-                            fontSize: 12)),
+                        style: const TextStyle(color: Colors.red, fontSize: 12)),
                   ),
                 TextField(
                   controller: actionCtrl,
@@ -268,21 +265,13 @@ class _RuleTile extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: rule.enabled
-                ? Theme.of(context)
-                    .colorScheme
-                    .primaryContainer
-                    .withValues(alpha: 0.5)
-                : Theme.of(context)
-                    .colorScheme
-                    .outlineVariant
-                    .withValues(alpha: 0.5),
+                ? Colors.indigo.withOpacity(0.12)
+                : Colors.grey.withOpacity(0.12),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text('${rule.order}',
               style: TextStyle(
-                  color: rule.enabled
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onSurfaceVariant,
+                  color: rule.enabled ? Colors.indigo : Colors.grey,
                   fontWeight: FontWeight.bold)),
         ),
         title: Row(
@@ -301,18 +290,12 @@ class _RuleTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('IF  ${rule.condition}',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.primary)),
+                style: const TextStyle(fontSize: 12, color: Colors.indigo)),
             Text('THEN  ${rule.action}',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.secondary)),
+                style: const TextStyle(fontSize: 12, color: Colors.teal)),
             if (rule.description.isNotEmpty)
               Text(rule.description,
-                  style: TextStyle(
-                      fontSize: 11,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  style: const TextStyle(fontSize: 11, color: Colors.grey)),
           ],
         ),
         trailing: Row(
@@ -322,8 +305,7 @@ class _RuleTile extends StatelessWidget {
                 icon: const Icon(Icons.edit_outlined, size: 20),
                 onPressed: onEdit),
             IconButton(
-              icon: Icon(Icons.delete_outline,
-                  size: 20, color: Theme.of(context).colorScheme.error),
+              icon: const Icon(Icons.delete_outline, size: 20, color: Colors.red),
               onPressed: onDelete,
             ),
           ],

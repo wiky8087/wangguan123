@@ -142,11 +142,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+        boxShadow: const [
           BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
+            color: Color(0x1A000000),
             blurRadius: 8,
             offset: Offset(0, 2),
           ),
@@ -156,15 +156,13 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Row(
             children: [
-              _PulseDot(color: running
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.error),
+              _PulseDot(color: running ? AppTheme.brandGreen : AppTheme.danger),
               const SizedBox(width: 10),
               Text(L10n.tr('Relay 服务'),
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: Theme.of(context).colorScheme.onSurface)),
+                      color: AppTheme.text)),
               const Spacer(),
               // 状态徽章
               Container(
@@ -172,8 +170,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: running
-                      ? Theme.of(context).colorScheme.primaryContainer
-                      : Theme.of(context).colorScheme.errorContainer,
+                      ? const Color(0xFFA6F5C4)
+                      : const Color(0xFFFFDAD6),
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
@@ -182,8 +180,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 11.5,
                     fontWeight: FontWeight.w600,
                     color: running
-                        ? Theme.of(context).colorScheme.onPrimaryContainer
-                        : Theme.of(context).colorScheme.onErrorContainer,
+                        ? const Color(0xFF00210F)
+                        : const Color(0xFF410002),
                   ),
                 ),
               ),
@@ -194,16 +192,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: [
               Text(L10n.tr('监听地址'),
-                  style: TextStyle(
-                      fontSize: 12.5,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  style: const TextStyle(fontSize: 12.5, color: AppTheme.text2)),
               const Spacer(),
-              Icon(Icons.copy, size: 13, color: Theme.of(context).colorScheme.outline),
+              Icon(Icons.copy, size: 13, color: AppTheme.text3),
               const SizedBox(width: 4),
               Text(L10n.tr('点击复制'),
-                  style: TextStyle(
-                      fontSize: 11,
-                      color: Theme.of(context).colorScheme.outline)),
+                  style: const TextStyle(fontSize: 11, color: AppTheme.text3)),
             ],
           ),
           const SizedBox(height: 6),
@@ -225,16 +219,14 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: [
               Text(L10n.tr('运行时长'),
-                  style: TextStyle(
-                      fontSize: 12.5,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  style: const TextStyle(fontSize: 12.5, color: AppTheme.text2)),
               const Spacer(),
               Text(
                 running ? _uptimeText(app) : '—',
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 12.5,
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onSurface),
+                    color: AppTheme.text),
               ),
             ],
           ),
@@ -246,9 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(running ? Icons.stop : Icons.play_arrow),
               label: Text(running ? L10n.tr('停止服务') : L10n.tr('启动服务')),
               style: FilledButton.styleFrom(
-                backgroundColor: running
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).colorScheme.primary,
+                backgroundColor: running ? AppTheme.danger : AppTheme.brandGreen,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
@@ -259,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text('${L10n.tr('服务启动失败')}: $e'),
-                    backgroundColor: Theme.of(context).colorScheme.error,
+                    backgroundColor: AppTheme.danger,
                   ));
                 }
               },
@@ -289,15 +279,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        color: AppTheme.surface2,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         text,
-        style: TextStyle(
-            fontFamily: 'monospace',
+        style: const TextStyle(
+            fontFamily: AppTheme.monoFontFamily,
             fontSize: 12,
-            color: Theme.of(context).colorScheme.onSurfaceVariant),
+            color: AppTheme.text2),
       ),
     );
   }
@@ -319,9 +309,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Row(
           children: [
             Text(label,
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                style:
+                    const TextStyle(fontSize: 12, color: AppTheme.text2)),
             const SizedBox(width: 8),
             Expanded(child: _monoTag(url)),
           ],
@@ -338,26 +327,23 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(L10n.tr('今日统计'),
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: Theme.of(context).colorScheme.onSurface)),
+                color: AppTheme.text)),
         const SizedBox(height: 10),
         Row(
           children: [
             Expanded(
-              child: _statMini('${s.total}', L10n.tr('请求数'),
-                  Theme.of(context).colorScheme.onSurface),
+              child: _statMini('${s.total}', L10n.tr('请求数'), AppTheme.text),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: _statMini('$success', L10n.tr('成功数'),
-                  Theme.of(context).colorScheme.primary),
+              child: _statMini('$success', L10n.tr('成功数'), AppTheme.brandGreen),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: _statMini('${s.errors}', L10n.tr('错误数'),
-                  Theme.of(context).colorScheme.error),
+              child: _statMini('${s.errors}', L10n.tr('错误数'), AppTheme.danger),
             ),
           ],
         ),
@@ -369,11 +355,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+        boxShadow: const [
           BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
+            color: Color(0x1A000000),
             blurRadius: 8,
             offset: Offset(0, 2),
           ),
@@ -384,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             value,
             style: TextStyle(
-              fontFamily: 'monospace',
+              fontFamily: AppTheme.monoFontFamily,
               fontSize: 22,
               fontWeight: FontWeight.w800,
               color: color,
@@ -392,9 +378,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 2),
           Text(label,
-              style: TextStyle(
-                  fontSize: 11,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant)),
+              style: const TextStyle(
+                  fontSize: 11, color: AppTheme.text2)),
         ],
       ),
     );
@@ -406,10 +391,10 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(L10n.tr('快捷操作'),
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: Theme.of(context).colorScheme.onSurface)),
+                color: AppTheme.text)),
         const SizedBox(height: 10),
         Row(
           children: [
@@ -475,17 +460,17 @@ class _HomeScreenState extends State<HomeScreen> {
     required Widget page,
   }) {
     return InkWell(
-      borderRadius: BorderRadius.circular(16.0),
+      borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       onTap: () =>
           Navigator.push(context, MaterialPageRoute(builder: (_) => page)),
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(16.0),
-          boxShadow: [
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+          boxShadow: const [
             BoxShadow(
-              color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
+              color: Color(0x1A000000),
               blurRadius: 8,
               offset: Offset(0, 2),
             ),
@@ -498,16 +483,16 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 40,
               decoration: BoxDecoration(
                 color: alt
-                    ? Theme.of(context).colorScheme.secondaryContainer
-                    : Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(12.0),
+                    ? const Color(0xFFC7EEE1)
+                    : const Color(0xFFA6F5C4),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
               child: Icon(
                 icon,
                 size: 20,
                 color: alt
-                    ? Theme.of(context).colorScheme.onSecondaryContainer
-                    : Theme.of(context).colorScheme.onPrimaryContainer,
+                    ? const Color(0xFF00201A)
+                    : const Color(0xFF00210F),
               ),
             ),
             const SizedBox(width: 12),
@@ -516,15 +501,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.onSurface)),
+                          color: AppTheme.text)),
                   const SizedBox(height: 2),
                   Text(subtitle,
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                      style: const TextStyle(
+                          fontSize: 11, color: AppTheme.text2)),
                 ],
               ),
             ),
@@ -540,18 +524,18 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(L10n.tr('更多功能'),
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: Theme.of(context).colorScheme.onSurface)),
+                color: AppTheme.text)),
         const SizedBox(height: 10),
         Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(16.0),
-            boxShadow: [
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+            boxShadow: const [
               BoxShadow(
-                color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
+                color: Color(0x1A000000),
                 blurRadius: 8,
                 offset: Offset(0, 2),
               ),
@@ -580,12 +564,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _divider() => Divider(
-      height: 1,
-      thickness: 1,
-      indent: 16,
-      endIndent: 16,
-      color: Theme.of(context).colorScheme.outlineVariant);
+  Widget _divider() => const Divider(
+      height: 1, thickness: 1, indent: 16, endIndent: 16, color: AppTheme.border);
 
   Widget _featureTile(BuildContext context, IconData icon, String title,
       String subtitle, Widget page) {
@@ -594,22 +574,17 @@ class _HomeScreenState extends State<HomeScreen> {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(12.0),
+          color: AppTheme.surface2,
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         ),
-        child: Icon(icon, size: 18, color: Theme.of(context).colorScheme.primary),
+        child: Icon(icon, size: 18, color: AppTheme.brandGreen),
       ),
       title: Text(title,
-          style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface)),
+          style: const TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.text)),
       subtitle: Text(subtitle,
-          style: TextStyle(
-              fontSize: 12,
-              color: Theme.of(context).colorScheme.onSurfaceVariant)),
-      trailing: Icon(Icons.chevron_right,
-          color: Theme.of(context).colorScheme.outline),
+          style: const TextStyle(fontSize: 12, color: AppTheme.text2)),
+      trailing: const Icon(Icons.chevron_right, color: AppTheme.text3),
       onTap: () =>
           Navigator.push(context, MaterialPageRoute(builder: (_) => page)),
     );

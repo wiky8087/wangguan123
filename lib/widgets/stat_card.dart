@@ -27,13 +27,13 @@ class StatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+        boxShadow: const [
           BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
+            color: Color(0x1A000000), // rgba(0,0,0,.10)
             blurRadius: 8,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -64,17 +64,13 @@ class StatCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(icon,
-                        color: Theme.of(context).colorScheme.outline,
-                        size: 14),
+                    Icon(icon, color: AppTheme.text3, size: 14),
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(
                         label,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant),
+                        style: const TextStyle(
+                            fontSize: 12, color: AppTheme.text2),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -98,9 +94,7 @@ class StatCard extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: AppTheme.monoFontFamily,
                       fontSize: 11.5,
-                      color: deltaUp
-                          ? const Color(0xFF4CAF50)
-                          : Theme.of(context).colorScheme.error,
+                      color: deltaUp ? AppTheme.success : AppTheme.danger,
                     ),
                   ),
                 ],

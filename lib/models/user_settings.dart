@@ -64,9 +64,6 @@ class UserSettings {
   bool relayAuthEnabled; // 是否要求访问密钥（默认关闭，保持裸连兼容）
   String? relayAccessToken; // 访问密钥；为空时首次启用自动生成
 
-  // —— 主题 ——
-  String themeMode; // 'system' / 'light' / 'dark'
-
   UserSettings({
     this.port = Constants.defaultPort,
     this.host = Constants.defaultHost,
@@ -107,7 +104,6 @@ class UserSettings {
     this.floatingBallOpacity = Constants.defaultFloatingBarOpacity,
     this.relayAuthEnabled = false,
     this.relayAccessToken,
-    this.themeMode = 'system',
   });
 
   factory UserSettings.fromJson(Map<String, dynamic> json) {
@@ -176,7 +172,6 @@ class UserSettings {
           Constants.defaultFloatingBarOpacity,
       relayAuthEnabled: json['relay_auth_enabled'] as bool? ?? false,
       relayAccessToken: json['relay_access_token'] as String?,
-      themeMode: json['theme_mode'] as String? ?? 'system',
     );
   }
 
@@ -221,7 +216,6 @@ class UserSettings {
       'floating_ball_opacity': floatingBallOpacity,
       'relay_auth_enabled': relayAuthEnabled,
       'relay_access_token': relayAccessToken,
-      'theme_mode': themeMode,
     };
   }
 
@@ -265,7 +259,6 @@ class UserSettings {
     double? floatingBallOpacity,
     bool? relayAuthEnabled,
     String? relayAccessToken,
-    String? themeMode,
   }) {
     return UserSettings(
       port: port ?? this.port,
@@ -315,7 +308,6 @@ class UserSettings {
           floatingBallOpacity ?? this.floatingBallOpacity,
       relayAuthEnabled: relayAuthEnabled ?? this.relayAuthEnabled,
       relayAccessToken: relayAccessToken ?? this.relayAccessToken,
-      themeMode: themeMode ?? this.themeMode,
     );
   }
 }

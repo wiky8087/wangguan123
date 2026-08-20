@@ -96,8 +96,7 @@ class ProviderManagementScreen extends StatelessWidget {
               app.deleteProvider(p.id);
               Navigator.pop(ctx);
             },
-            child: Text(L10n.tr('删除'),
-                style: TextStyle(color: Theme.of(context).colorScheme.error)),
+            child: Text(L10n.tr('删除'), style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -126,20 +125,11 @@ class _ProviderTile extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: provider.builtIn
-              ? Theme.of(context)
-                  .colorScheme
-                  .primaryContainer
-                  .withValues(alpha: 0.3)
-              : Theme.of(context)
-                  .colorScheme
-                  .secondaryContainer
-                  .withValues(alpha: 0.3),
+          backgroundColor:
+              provider.builtIn ? Colors.indigo.withOpacity(0.15) : Colors.teal.withOpacity(0.15),
           child: Icon(
             provider.builtIn ? Icons.cloud : Icons.add_circle,
-            color: provider.builtIn
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.secondary,
+            color: provider.builtIn ? Colors.indigo : Colors.teal,
           ),
         ),
         title: Row(
@@ -153,24 +143,14 @@ class _ProviderTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                color: provider.builtIn
-                    ? Theme.of(context)
-                        .colorScheme
-                        .outlineVariant
-                        .withValues(alpha: 0.5)
-                    : Theme.of(context)
-                        .colorScheme
-                        .secondaryContainer
-                        .withValues(alpha: 0.3),
+                color: provider.builtIn ? Colors.grey.withOpacity(0.15) : Colors.teal.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
                 provider.builtIn ? L10n.tr('内置') : L10n.tr('自定义'),
                 style: TextStyle(
                   fontSize: 11,
-                  color: provider.builtIn
-                      ? Theme.of(context).colorScheme.onSurfaceVariant
-                      : Theme.of(context).colorScheme.secondary,
+                  color: provider.builtIn ? Colors.grey : Colors.teal,
                 ),
               ),
             ),
@@ -187,16 +167,13 @@ class _ProviderTile extends StatelessWidget {
             ),
             Text(
               L10n.fmt('API 路径: {path}', {'path': provider.apiPath}),
-              style: TextStyle(
-                  fontSize: 11,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+              style: const TextStyle(fontSize: 11, color: Colors.grey),
             ),
           ],
         ),
         trailing: onDelete != null
             ? IconButton(
-                icon: Icon(Icons.delete_outline,
-                    size: 20, color: Theme.of(context).colorScheme.error),
+                icon: const Icon(Icons.delete_outline, size: 20, color: Colors.red),
                 onPressed: onDelete,
               )
             : null,

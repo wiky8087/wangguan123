@@ -126,8 +126,7 @@ class _ReportScreenState extends State<ReportScreen> {
           const SizedBox(height: 12),
           _chartCard(t.t('每日错误趋势'),
               SimpleBarChart(
-                  data: _dailyMap(errors: true),
-                  color: Theme.of(context).colorScheme.error)),
+                  data: _dailyMap(errors: true), color: Colors.red)),
           const SizedBox(height: 12),
           _rankCard(t.t('Top 模型'), _report.topModels),
           const SizedBox(height: 12),
@@ -164,9 +163,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       fontSize: 16, fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
               Text(label,
-                  style: TextStyle(
-                      fontSize: 11,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  style: const TextStyle(fontSize: 11, color: Colors.grey)),
             ],
           ),
         ),
@@ -200,8 +197,7 @@ class _ReportScreenState extends State<ReportScreen> {
               const SizedBox(height: 8),
               if (items.isEmpty)
                 Text(L10n.tr('（暂无数据）'),
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant))
+                    style: const TextStyle(color: Colors.grey))
               else
                 ...items.map((e) => ListTile(
                       dense: true,
@@ -219,7 +215,7 @@ class _ReportScreenState extends State<ReportScreen> {
       );
 
   Widget _rateLimitCard(L10n t, Map<String, int> data) => Card(
-        color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.3),
+        color: Colors.orange.shade50,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(14),

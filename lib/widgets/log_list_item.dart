@@ -16,48 +16,45 @@ class LogListItem extends StatelessWidget {
       : super(key: key);
 
   /// 状态颜色编码：5xx/代理错误=红，4xx=橙，其余=绿
-  Color _statusColor(BuildContext context) {
-    if (log.isError) return Theme.of(context).colorScheme.error;
-    if (log.statusCode >= 400 && log.statusCode < 500) {
-      return const Color(0xFFFF9800);
-    }
-    return const Color(0xFF4CAF50);
+  Color get _statusColor {
+    if (log.isError) return AppTheme.danger;
+    if (log.statusCode >= 400 && log.statusCode < 500) return AppTheme.warning;
+    return AppTheme.success;
   }
 
   /// 状态徽章配色（对应设计稿 status-chip ok/bad）
-  Color _chipBg(BuildContext context) {
+  Color get _chipBg {
     if (log.isError || (log.statusCode >= 400 && log.statusCode < 500)) {
-      return Theme.of(context).colorScheme.errorContainer;
+      return const Color(0xFFFFDAD6);
     }
-    return Theme.of(context).colorScheme.primaryContainer;
+    return const Color(0xFFA6F5C4);
   }
 
-  Color _chipFg(BuildContext context) {
+  Color get _chipFg {
     if (log.isError || (log.statusCode >= 400 && log.statusCode < 500)) {
-      return Theme.of(context).colorScheme.onErrorContainer;
+      return const Color(0xFF410002);
     }
-    return Theme.of(context).colorScheme.onPrimaryContainer;
+    return const Color(0xFF00210F);
   }
 
   @override
   Widget build(BuildContext context) {
-    final color = _statusColor(context);
-    final chipBg = _chipBg(context);
-    final chipFg = _chipFg(context);
+    final color = _statusColor;
+    final chipBg = _chipBg;
+    final chipFg = _chipFg;
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 5),
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(12.0),
-            border: Border.all(
-                color: Theme.of(context).colorScheme.outlineVariant),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+            border: Border.all(color: AppTheme.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,28 +68,27 @@ class LogListItem extends StatelessWidget {
                     child: Text(
                       '${log.method} ${log.path}',
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: AppTheme.monoFontFamily,
                         fontSize: 12.5,
                         fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color: AppTheme.text,
                       ),
                     ),
                   ),
                   if (onTap != null)
-                    Icon(Icons.chevron_right,
-                        size: 18,
-                        color: Theme.of(context).colorScheme.outline),
+                    const Icon(Icons.chevron_right,
+                        size: 18, color: AppTheme.text3),
                 ],
               ),
               // 中行：服务商/模型标签 + 状态徽章
               const SizedBox(height: 8),
               Row(
                 children: [
-                  _monoTag(context, log.provider),
+                  _monoTag(log.provider),
                   if (log.model.isNotEmpty) ...[
                     const SizedBox(width: 6),
-                    _monoTag(context, log.model),
+                    _monoTag(log.model),
                   ],
                   const Spacer(),
                   Container(
@@ -118,28 +114,20 @@ class LogListItem extends StatelessWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(Icons.schedule,
-                      size: 13,
-                      color: Theme.of(context).colorScheme.outline),
+                  const Icon(Icons.schedule, size: 13, color: AppTheme.text3),
                   const SizedBox(width: 4),
                   Text(
                     Formatters.formatDuration(log.durationMs),
-                    style: TextStyle(
-                        fontSize: 11.5,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    style: const TextStyle(fontSize: 11.5, color: AppTheme.text2),
                   ),
                   if (log.totalTokens > 0) ...[
                     const SizedBox(width: 14),
-                    Icon(Icons.token,
-                        size: 13,
-                        color: Theme.of(context).colorScheme.outline),
+                    const Icon(Icons.token, size: 13, color: AppTheme.text3),
                     const SizedBox(width: 4),
                     Text(
                       '${Formatters.formatNumber(log.totalTokens)} tokens',
-                      style: TextStyle(
-                          fontSize: 11.5,
-                          color:
-                              Theme.of(context).colorScheme.onSurfaceVariant),
+                      style:
+                          const TextStyle(fontSize: 11.5, color: AppTheme.text2),
                     ),
                   ],
                   const Spacer(),
@@ -149,17 +137,15 @@ class LogListItem extends StatelessWidget {
                         log.error!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 11.5,
-                            color: Theme.of(context).colorScheme.error),
+                        style: const TextStyle(
+                            fontSize: 11.5, color: AppTheme.danger),
                       ),
                     )
                   else
                     Text(
                       Formatters.formatRelative(log.timestamp),
-                      style: TextStyle(
-                          fontSize: 11.5,
-                          color: Theme.of(context).colorScheme.outline),
+                      style:
+                          const TextStyle(fontSize: 11.5, color: AppTheme.text3),
                     ),
                 ],
               ),
@@ -170,19 +156,19 @@ class LogListItem extends StatelessWidget {
     );
   }
 
-  Widget _monoTag(BuildContext context, String text) {
+  Widget _monoTag(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        color: AppTheme.surface2,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: AppTheme.monoFontFamily,
           fontSize: 11.5,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          color: AppTheme.text2,
         ),
       ),
     );

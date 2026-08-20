@@ -113,16 +113,12 @@ class _KeyImportDialogState extends State<KeyImportDialog> {
               const SizedBox(height: 4),
               Text(
                 L10n.tr('支持 .txt / .json / .csv，或下方直接粘贴'),
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant),
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
               const Divider(height: 16),
               Text(L10n.tr('格式说明：'),
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey)),
               const Text(
                   '① JSON：[{"provider":"openai","key":"sk-xxx","name":"账号A","note":"免费"}]',
                   style: TextStyle(fontSize: 12)),
@@ -143,16 +139,13 @@ class _KeyImportDialogState extends State<KeyImportDialog> {
                   padding: const EdgeInsets.only(top: 6),
                   child: Text(
                       L10n.fmt('已识别 {n} 个 Key', {'n': '$_preview'}),
-                      style: const TextStyle(
-                          color: Color(0xFF4CAF50), fontSize: 12)),
+                      style: const TextStyle(color: Colors.green, fontSize: 12)),
                 ),
               if (_error != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 6),
                   child: Text(_error!,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                          fontSize: 12)),
+                      style: const TextStyle(color: Colors.red, fontSize: 12)),
                 ),
             ],
           ),
