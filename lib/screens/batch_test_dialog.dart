@@ -73,7 +73,7 @@ class _BatchTestDialogState extends State<BatchTestDialog> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           content: Text(L10n.fmt('已禁用 {n} 个无效 Key', {'n': '$n'})),
-          backgroundColor: Colors.orange),
+          backgroundColor: const Color(0xFFFF9800)),
     );
     Navigator.pop(context, true);
   }
@@ -102,7 +102,7 @@ class _BatchTestDialogState extends State<BatchTestDialog> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(L10n.fmt('已删除 {n} 个无效 Key', {'n': '$n'})),
-            backgroundColor: Colors.red),
+            backgroundColor: Theme.of(context).colorScheme.error),
       );
       Navigator.pop(context, true);
     }
@@ -166,7 +166,9 @@ class _BatchTestDialogState extends State<BatchTestDialog> {
                       ? _currentName
                       : L10n.tr('准备中')
                 }),
-            style: const TextStyle(fontSize: 12, color: Colors.grey)),
+            style: TextStyle(
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.onSurfaceVariant)),
       ],
     );
   }
@@ -204,7 +206,9 @@ class _BatchTestDialogState extends State<BatchTestDialog> {
                 subtitle: Text(
                     L10n.fmt('原因：{reason}',
                         {'reason': r.outcome.error ?? r.outcome.status.label}),
-                    style: const TextStyle(fontSize: 12, color: Colors.red)),
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.error)),
               );
             },
           ),
@@ -226,7 +230,7 @@ class _BatchTestDialogState extends State<BatchTestDialog> {
         TextButton(
             onPressed: _deleteAll,
             child: Text(L10n.tr('删除无效'),
-                style: const TextStyle(color: Colors.red))),
+                style: TextStyle(color: Theme.of(context).colorScheme.error))),
       if (s.failed.isNotEmpty)
         ElevatedButton(
             onPressed: _disableAll, child: Text(L10n.tr('禁用无效'))),

@@ -729,6 +729,17 @@ class AppState extends ChangeNotifier {
   Future<int> cleanupLogs() => logService.cleanup();
 }
 
+ThemeMode _parseThemeMode(String? mode) {
+  switch (mode) {
+    case 'light':
+      return ThemeMode.light;
+    case 'dark':
+      return ThemeMode.dark;
+    default:
+      return ThemeMode.system;
+  }
+}
+
 /// 应用根组件
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -739,12 +750,13 @@ class MyApp extends StatelessWidget {
       create: (_) => AppState(),
       child: Consumer<AppState>(
         builder: (ctx, app, _) {
-          // 依赖 settings.language：语言切换时整个 MaterialApp 重建，
-          // 保证所有页面（含已入栈路由）立即刷新为新的语言。
           app.settings.language;
+          app.settings.themeMode;
           return MaterialApp(
             title: Constants.appName,
             theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: _parseThemeMode(app.settings.themeMode),
             debugShowCheckedModeBanner: false,
             home: const HomeScreen(),
           );

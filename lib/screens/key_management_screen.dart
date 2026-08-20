@@ -129,7 +129,8 @@ class _KeyManagementScreenState extends State<KeyManagementScreen> {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppTheme.borderStrong),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.outline),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: PopupMenuButton<String>(
@@ -157,7 +158,8 @@ class _KeyManagementScreenState extends State<KeyManagementScreen> {
                           ? L10n.tr('还没有添加任何 Key\n点击右下角按钮新增')
                           : L10n.tr('没有匹配的 Key'),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.grey),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant),
                     ),
                   )
                 : ListView(
@@ -196,25 +198,25 @@ class _KeyManagementScreenState extends State<KeyManagementScreen> {
               ProviderLogo(providerId: providerId, providerName: displayName),
               const SizedBox(width: 8),
               Text(displayName,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: AppTheme.text)),
+                      color: Theme.of(context).colorScheme.onSurface)),
               const SizedBox(width: 8),
               // 数量（mono-tag）
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: AppTheme.surface2,
+                  color: Theme.of(context).colorScheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
                   L10n.count(keys.length),
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: AppTheme.monoFontFamily,
                       fontSize: 11.5,
-                      color: AppTheme.text2),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant),
                 ),
               ),
               const Spacer(),
@@ -236,9 +238,10 @@ class _KeyManagementScreenState extends State<KeyManagementScreen> {
         // 单张卡片（圆角12 · 边框 1px #E0E0E0）
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-            border: Border.all(color: AppTheme.border),
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(12.0),
+            border:
+                Border.all(color: Theme.of(context).colorScheme.outlineVariant),
           ),
           child: Column(
             children: List.generate(keys.length, (i) {
@@ -246,11 +249,11 @@ class _KeyManagementScreenState extends State<KeyManagementScreen> {
               return Column(
                 children: [
                   if (i > 0)
-                    const Divider(
+                    Divider(
                         height: 1,
                         thickness: 1,
                         indent: 26,
-                        color: AppTheme.border),
+                        color: Theme.of(context).colorScheme.outlineVariant),
                   KeyCard(
                     key: ValueKey(k.id),
                     apiKey: k,
@@ -273,30 +276,31 @@ class _KeyManagementScreenState extends State<KeyManagementScreen> {
   Future<void> _testKey(
       BuildContext context, AppState app, ApiKey k) async {
     final messenger = ScaffoldMessenger.of(context);
+    final scheme = Theme.of(context).colorScheme;
     setState(() => _testing[k.id] = true);
     final outcome = await app.testKey(k);
     setState(() => _testing[k.id] = false);
     if (!mounted) return;
     var msg = L10n.tr('连接完成');
-    var color = Colors.grey;
+    var color = scheme.onSurfaceVariant;
     switch (outcome.status) {
       case KeyTestStatus.valid:
         msg = L10n.fmt('连接成功：{name}', {'name': k.name});
-        color = Colors.green;
+        color = const Color(0xFF4CAF50);
         break;
       case KeyTestStatus.invalid:
         msg = L10n.fmt('连接失败：{name}（{err}）',
             {'name': k.name, 'err': outcome.error ?? L10n.tr('无效')});
-        color = Colors.red;
+        color = scheme.error;
         break;
       case KeyTestStatus.timeout:
         msg = L10n.fmt('连接超时：{name}', {'name': k.name});
-        color = Colors.orange;
+        color = const Color(0xFFFF9800);
         break;
       case KeyTestStatus.error:
         msg = L10n.fmt('连接异常：{name}（{err}）',
             {'name': k.name, 'err': outcome.error ?? L10n.tr('错误')});
-        color = Colors.orange;
+        color = const Color(0xFFFF9800);
         break;
     }
     messenger.showSnackBar(SnackBar(content: Text(msg), backgroundColor: color));

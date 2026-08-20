@@ -55,7 +55,9 @@ class _AlertsScreenState extends State<AlertsScreen> {
       ),
       body: alerts.isEmpty
           ? Center(
-              child: Text(L10n.tr('暂无告警'), style: const TextStyle(color: Colors.grey)),
+              child: Text(L10n.tr('暂无告警'),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
             )
           : ListView.separated(
               padding: const EdgeInsets.all(12),
@@ -65,9 +67,9 @@ class _AlertsScreenState extends State<AlertsScreen> {
                 final a = alerts[i];
                 return Dismissible(
                   key: Key(a.id),
-                  background: const ColoredBox(
-                    color: Colors.red,
-                    child: Align(
+                  background: ColoredBox(
+                    color: Theme.of(context).colorScheme.error,
+                    child: const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(right: 16),
@@ -85,14 +87,17 @@ class _AlertsScreenState extends State<AlertsScreen> {
                         Text(a.message),
                         Text(
                           '${a.event} · ${Formatters.formatRelative(a.timestamp)}',
-                          style:
-                              const TextStyle(fontSize: 11, color: Colors.grey),
+                          style: TextStyle(
+                              fontSize: 11,
+                              color:
+                                  Theme.of(context).colorScheme.onSurfaceVariant),
                         ),
                       ],
                     ),
                     trailing: a.read
                         ? null
-                        : const Icon(Icons.circle, size: 10, color: Colors.blue),
+                        : const Icon(Icons.circle,
+                            size: 10, color: Color(0xFF2196F3)),
                     onTap: () {
                       if (!a.read) app.markAlertRead(a.id);
                     },
@@ -105,10 +110,10 @@ class _AlertsScreenState extends State<AlertsScreen> {
 
   Widget _levelIcon(AlertLevel level) {
     final color = level == AlertLevel.critical
-        ? Colors.red
+        ? Theme.of(context).colorScheme.error
         : level == AlertLevel.warning
-            ? Colors.orange
-            : Colors.blue;
+            ? const Color(0xFFFF9800)
+            : const Color(0xFF2196F3);
     final icon = level == AlertLevel.critical
         ? Icons.error
         : level == AlertLevel.warning

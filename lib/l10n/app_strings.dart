@@ -512,6 +512,10 @@ class L10n {
     '半透明悬浮条常驻屏幕，贴边隐藏，轻触唤起':
         'Slim translucent bar, snaps to edge, tap to reveal',
     '主题色': 'Accent Color',
+    '主题模式': 'Theme Mode',
+    '跟随系统': 'System',
+    '浅色模式': 'Light',
+    '深色模式': 'Dark',
     '透明度': 'Opacity',
     '绿色': 'Green',
     '蓝色': 'Blue',

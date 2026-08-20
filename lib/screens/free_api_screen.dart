@@ -90,7 +90,8 @@ class _FreeApiScreenState extends State<FreeApiScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.cloud_off, size: 56, color: Colors.grey),
+          Icon(Icons.cloud_off,
+              size: 56, color: Theme.of(context).colorScheme.onSurfaceVariant),
           const SizedBox(height: 12),
           Text(L10n.tr('暂无数据'), style: const TextStyle(fontSize: 16)),
           if (_error != null)
@@ -99,7 +100,9 @@ class _FreeApiScreenState extends State<FreeApiScreen> {
               child: Text(
                 L10n.fmt('加载失败：{err}', {'err': '$_error'}),
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 12),
               ),
             ),
           const SizedBox(height: 12),
@@ -128,7 +131,9 @@ class _FreeApiScreenState extends State<FreeApiScreen> {
             padding: const EdgeInsets.all(8),
             child: Text(
               L10n.tr('免责声明：免费政策可能随时变动，使用前请务必点击「官方文档」进行最终确认。'),
-              style: const TextStyle(fontSize: 11, color: Colors.grey),
+              style: TextStyle(
+                  fontSize: 11,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
               textAlign: TextAlign.center,
             ),
           ),
@@ -142,7 +147,7 @@ class _FreeApiScreenState extends State<FreeApiScreen> {
         ? L10n.tr('未知')
         : _formatTime(cachedAt);
     return Card(
-      color: Colors.indigo.shade50,
+      color: Theme.of(context).colorScheme.primaryContainer,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -151,7 +156,9 @@ class _FreeApiScreenState extends State<FreeApiScreen> {
           children: [
             Row(
               children: [
-                const Icon(Icons.info_outline, color: Colors.indigo, size: 18),
+                Icon(Icons.info_outline,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 18),
                 const SizedBox(width: 6),
                 Text(
                   L10n.fmt('数据来源：{src}', {'src': Constants.freeApiSourceName}),
@@ -168,7 +175,9 @@ class _FreeApiScreenState extends State<FreeApiScreen> {
                       {'d': dataset.generated.isNotEmpty ? dataset.generated : L10n.tr('未知')}) +
                   '　' +
                   L10n.fmt('本地更新：{t}', {'t': updated}),
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
+              style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
             ),
           ],
         ),
@@ -189,8 +198,8 @@ class _FreeApiScreenState extends State<FreeApiScreen> {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: p.verified
-              ? Colors.green.shade100
-              : Colors.orange.shade100,
+              ? const Color(0xFF4CAF50).withValues(alpha: 0.12)
+              : const Color(0xFFFF9800).withValues(alpha: 0.12),
           child: Text(
             p.flagEmoji,
             style: const TextStyle(fontSize: 22),
@@ -211,12 +220,14 @@ class _FreeApiScreenState extends State<FreeApiScreen> {
             Wrap(
               spacing: 6,
               children: [
-                _chip(p.categoryLabel, Colors.indigo),
-                _chip(p.freeTypeLabel, Colors.teal),
+                _chip(p.categoryLabel, Theme.of(context).colorScheme.primary),
+                _chip(
+                    p.freeTypeLabel, Theme.of(context).colorScheme.secondary),
                 if (p.commercialOk == true)
-                  _chip(L10n.tr('允许商用'), Colors.green)
+                  _chip(L10n.tr('允许商用'), const Color(0xFF4CAF50))
                 else if (p.commercialOk == false)
-                  _chip(L10n.tr('禁止商用'), Colors.red),
+                  _chip(
+                      L10n.tr('禁止商用'), Theme.of(context).colorScheme.error),
               ],
             ),
           ],
@@ -274,10 +285,14 @@ class FreeProviderDetailScreen extends StatelessWidget {
             spacing: 8,
             runSpacing: 6,
             children: [
-              _detailChip(L10n.fmt('免费类型：{v}', {'v': p.categoryLabel}), Colors.indigo),
-              _detailChip(L10n.fmt('免费模式：{v}', {'v': p.freeTypeLabel}), Colors.teal),
+              _detailChip(L10n.fmt('免费类型：{v}', {'v': p.categoryLabel}),
+                  Theme.of(context).colorScheme.primary),
+              _detailChip(L10n.fmt('免费模式：{v}', {'v': p.freeTypeLabel}),
+                  Theme.of(context).colorScheme.secondary),
               _detailChip(L10n.fmt('已验证：{v}', {'v': p.verifiedLabel}),
-                  p.verified ? Colors.green : Colors.orange),
+                  p.verified
+                      ? const Color(0xFF4CAF50)
+                      : const Color(0xFFFF9800)),
             ],
           ),
           const SizedBox(height: 16),
@@ -336,7 +351,9 @@ class FreeProviderDetailScreen extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             L10n.tr('免责声明：免费政策可能随时变动，使用前请务必点击「官方文档」进行最终确认。'),
-            style: const TextStyle(fontSize: 11, color: Colors.grey),
+            style: TextStyle(
+                fontSize: 11,
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
             textAlign: TextAlign.center,
           ),
         ],
@@ -371,17 +388,29 @@ class FreeProviderDetailScreen extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: highlight
-                  ? Colors.indigo.withOpacity(0.06)
-                  : Colors.grey.withOpacity(0.06),
+                  ? Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withValues(alpha: 0.3)
+                  : Theme.of(context)
+                      .colorScheme
+                      .outlineVariant
+                      .withValues(alpha: 0.25),
               borderRadius: BorderRadius.circular(8),
               border: highlight
-                  ? Border.all(color: Colors.indigo.withOpacity(0.3))
+                  ? Border.all(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withValues(alpha: 0.3))
                   : null,
             ),
             child: Text(content,
                 style: TextStyle(
                   fontSize: 13,
-                  color: highlight ? Colors.indigo.shade900 : Colors.black87,
+                  color: highlight
+                      ? Theme.of(context).colorScheme.onPrimaryContainer
+                      : Theme.of(context).colorScheme.onSurface,
                 )),
           ),
         ],

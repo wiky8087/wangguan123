@@ -145,9 +145,11 @@ class _SyncProgressDialogState extends State<SyncProgressDialog> {
           child: CircularProgressIndicator(strokeWidth: 2),
         );
       case SyncStatus.completed:
-        return const Icon(Icons.check_circle, color: Colors.green, size: 20);
+        return const Icon(Icons.check_circle,
+            color: Color(0xFF4CAF50), size: 20);
       case SyncStatus.failed:
-        return const Icon(Icons.error, color: Colors.red, size: 20);
+        return Icon(Icons.error,
+            color: Theme.of(context).colorScheme.error, size: 20);
     }
   }
 
