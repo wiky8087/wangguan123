@@ -739,12 +739,19 @@ class MyApp extends StatelessWidget {
       create: (_) => AppState(),
       child: Consumer<AppState>(
         builder: (ctx, app, _) {
-          // 依赖 settings.language：语言切换时整个 MaterialApp 重建，
-          // 保证所有页面（含已入栈路由）立即刷新为新的语言。
+          // 依赖 settings.language / themeMode：语言/主题切换时整个 MaterialApp 重建
           app.settings.language;
+          app.settings.themeMode;
+          final themeMode = switch (app.settings.themeMode) {
+            'light' => ThemeMode.light,
+            'dark' => ThemeMode.dark,
+            _ => ThemeMode.system,
+          };
           return MaterialApp(
             title: Constants.appName,
             theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: themeMode,
             debugShowCheckedModeBanner: false,
             home: const HomeScreen(),
           );

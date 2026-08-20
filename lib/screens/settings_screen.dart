@@ -78,6 +78,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   late String _floatingBallStyle;
   late double _floatingBallOpacity;
 
+  // —— 主题 ——
+  late String _themeMode;
+
   // —— Relay 服务访问密钥 ——
   late bool _relayAuthEnabled;
   late String _relayAccessToken;
@@ -130,6 +133,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _floatingBallEnabled = s.floatingBallEnabled;
     _floatingBallStyle = s.floatingBallStyle;
     _floatingBallOpacity = s.floatingBallOpacity;
+    _themeMode = s.themeMode;
     _relayAuthEnabled = s.relayAuthEnabled;
     _relayAccessToken = s.relayAccessToken ?? _generateAccessToken();
     _githubRepo = s.updateGithubRepo;
@@ -252,6 +256,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       relayAuthEnabled: _relayAuthEnabled,
       relayAccessToken:
           _relayAuthEnabled ? _relayAccessToken : _relayAccessToken,
+      themeMode: _themeMode,
     );
     await app.saveSettings(newSettings);
     // 开启「忽略电池优化」时，请求系统授权（弹出系统对话框）
@@ -641,6 +646,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     L10n.instance.setLanguage(v);
                   });
                 },
+              ),
+            ),
+            _row(
+              title: t.t('主题'),
+              trailing: _select<String>(
+                value: _themeMode,
+                items: [
+                  DropdownMenuItem(value: 'system', child: Text(L10n.tr('跟随系统'))),
+                  DropdownMenuItem(value: 'light', child: Text(L10n.tr('浅色'))),
+                  DropdownMenuItem(value: 'dark', child: Text(L10n.tr('深色'))),
+                ],
+                onChanged: (v) => setState(() => _themeMode = v!),
               ),
             ),
             _row(
