@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         boxShadow: const [
           BoxShadow(
@@ -355,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         boxShadow: const [
           BoxShadow(
@@ -466,7 +466,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           boxShadow: const [
             BoxShadow(
@@ -531,7 +531,7 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 10),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(AppTheme.radiusLg),
             boxShadow: const [
               BoxShadow(
@@ -545,16 +545,22 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               _featureTile(context, Icons.cloud_outlined, L10n.tr('提供商管理'),
                   L10n.tr('内置与自定义 AI 服务商'), const ProviderManagementScreen()),
-              _divider(),
+_divider(context),
               _featureTile(context, Icons.rule, L10n.tr('路由规则'), L10n.tr('按条件智能路由'),
                   const RulesScreen()),
-              _divider(),
+              _divider(context),
               _featureTile(context, Icons.notifications_outlined, L10n.tr('告警中心'),
                   L10n.tr('配额与错误率告警'), const AlertsScreen()),
-              _divider(),
+              _divider(context),
+              _featureTile(context, Icons.description_outlined, L10n.tr('统计报表'),
+                  L10n.tr('周期报表与导出'), const ReportScreen()),
+              _divider(context),
+              _featureTile(context, Icons.notifications_outlined, L10n.tr('告警中心'),
+                  L10n.tr('配额与错误率告警'), const AlertsScreen()),
+              _divider(context),
               _featureTile(context, Icons.assessment_outlined, L10n.tr('统计报表'),
                   L10n.tr('周期报表与导出'), const ReportScreen()),
-              _divider(),
+              _divider(context),
               _featureTile(context, Icons.celebration_outlined, L10n.tr('免费 API'),
                   L10n.tr('免费大模型接口推荐'), const FreeApiScreen()),
             ],
@@ -564,8 +570,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _divider() => const Divider(
-      height: 1, thickness: 1, indent: 16, endIndent: 16, color: AppTheme.border);
+  Widget _divider(BuildContext context) => Divider(
+      height: 1, thickness: 1, indent: 16, endIndent: 16, color: Theme.of(context).dividerColor);
 
   Widget _featureTile(BuildContext context, IconData icon, String title,
       String subtitle, Widget page) {
