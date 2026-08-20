@@ -749,7 +749,6 @@ class MyApp extends StatelessWidget {
           };
           return MaterialApp(
             title: Constants.appName,
-            key: ValueKey(app.settings.themeMode),
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: themeMode,

@@ -742,25 +742,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.only(top: 14, bottom: 6),
         child: Text(
           title.toUpperCase(),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.04,
-            color: Theme.of(context).brightness == Brightness.dark
-                ? const Color(0xFF69F0AE)
-                : const Color(0xFF006B3F),
+            color: Color(0xFF006B3F),
           ),
         ),
       );
 
   // ———————— 卡片（对应设计稿 m3-card，行间分隔线）———————
   Widget _card(List<Widget> rows) {
-    final theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: theme.cardColor,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        border: Border.all(color: theme.colorScheme.outlineVariant),
+        border: Border.all(color: AppTheme.border),
       ),
       child: Column(
         children: List.generate(rows.length, (i) {
