@@ -748,16 +748,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => AppState(),
-      child: Consumer<AppState>(
-        builder: (ctx, app, _) {
-          app.settings.language;
-          app.settings.themeMode;
+      child: Selector<AppState, String>(
+        selector: (_, app) =>
+            '${app.settings.language}_${app.settings.themeMode}',
+        builder: (_, key, __) {
+          final sep = key.indexOf('_');
+          final themeMode = key.substring(sep + 1);
           return MaterialApp(
-            key: ValueKey('theme_${app.settings.themeMode}'),
+            key: ValueKey('app_$key'),
             title: Constants.appName,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
-            themeMode: _parseThemeMode(app.settings.themeMode),
+            themeMode: _parseThemeMode(themeMode),
             debugShowCheckedModeBanner: false,
             home: const HomeScreen(),
           );
