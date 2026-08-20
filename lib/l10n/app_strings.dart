@@ -80,10 +80,6 @@ class L10n {
     '密钥已复制': 'Key copied',
     '请先启用访问密钥': 'Enable Access Key first',
     '复制密钥': 'Copy key',
-    '主题': 'Theme',
-    '跟随系统': 'System',
-    '浅色': 'Light',
-    '深色': 'Dark',
 
     // ===== 首页 =====
     '首页': 'Home',
