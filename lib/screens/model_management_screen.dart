@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:relaygo/app.dart';
-import 'package:relaygo/config/theme.dart';
 import 'package:relaygo/l10n/app_strings.dart';
 import 'package:relaygo/models/model_info.dart';
 import 'package:relaygo/models/provider_config.dart';
@@ -164,7 +163,8 @@ class _ModelManagementScreenState extends State<ModelManagementScreen> {
                 padding: const EdgeInsets.all(14),
                 child: Row(
                   children: [
-                    const Icon(Icons.model_training, color: AppTheme.brandGreen),
+                    Icon(Icons.model_training,
+                        color: Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Column(
@@ -182,14 +182,20 @@ class _ModelManagementScreenState extends State<ModelManagementScreen> {
                                         .format(DateTime.fromMillisecondsSinceEpoch(last))
                                   })
                                 : L10n.tr('尚未同步，点击右上角同步模型'),
-                            style: const TextStyle(fontSize: 12, color: Colors.grey),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                           ),
                           if (deprecatedCount > 0) ...[
                             const SizedBox(height: 2),
                             Text(
                               L10n.fmt('已下线 {count} 个，点击右上角清理',
                                   {'count': '$deprecatedCount'}),
-                              style: const TextStyle(fontSize: 12, color: Colors.red),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context).colorScheme.error),
                             ),
                           ],
                         ],
@@ -216,7 +222,8 @@ class _ModelManagementScreenState extends State<ModelManagementScreen> {
                 padding: const EdgeInsets.only(top: 40),
                 child: Center(
                   child: Text(L10n.tr('还没有模型，点击右上角「同步」从各服务商拉取'),
-                      style: const TextStyle(color: Colors.grey)),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant)),
                 ),
               )
             else
@@ -263,8 +270,11 @@ class _ModelManagementScreenState extends State<ModelManagementScreen> {
                                 ),
                                 Text(
                                   '$subtitle（${full.length}）',
-                                  style: const TextStyle(
-                                      fontSize: 11, color: Colors.grey),
+                                  style: TextStyle(
+                                      fontSize: 11,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ],
@@ -283,8 +293,10 @@ class _ModelManagementScreenState extends State<ModelManagementScreen> {
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: allEnabled
-                                        ? AppTheme.brandGreen
-                                        : Colors.grey),
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant),
                               ),
                               Switch.adaptive(
                                 // null 表示部分启用；Switch 不支持三态，
@@ -344,7 +356,9 @@ class _ModelManagementScreenState extends State<ModelManagementScreen> {
                       dense: true,
                       leading: Icon(
                         failed.isEmpty ? Icons.check_circle : Icons.warning,
-                        color: failed.isEmpty ? Colors.green : Colors.orange,
+                        color: failed.isEmpty
+                            ? const Color(0xFF4CAF50)
+                            : const Color(0xFFFF9800),
                         size: 20,
                       ),
                       title: Text(
@@ -382,7 +396,9 @@ class _ModelManagementScreenState extends State<ModelManagementScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(providerName,
-                style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
             if (m.capabilities.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 4),
@@ -405,7 +421,9 @@ class _ModelManagementScreenState extends State<ModelManagementScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(L10n.tr('已下线'),
-                    style: const TextStyle(fontSize: 11, color: Colors.red)),
+                    style: TextStyle(
+                        fontSize: 11,
+                        color: Theme.of(context).colorScheme.error)),
               ),
           ],
         ),

@@ -729,6 +729,17 @@ class AppState extends ChangeNotifier {
   Future<int> cleanupLogs() => logService.cleanup();
 }
 
+ThemeMode _parseThemeMode(String? mode) {
+  switch (mode) {
+    case 'light':
+      return ThemeMode.light;
+    case 'dark':
+      return ThemeMode.dark;
+    default:
+      return ThemeMode.system;
+  }
+}
+
 /// 应用根组件
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -737,12 +748,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => AppState(),
-child: Consumer<AppState>(
-        builder: (ctx, app, _) {
-          app.settings.language;
+      child: Selector<AppState, String>(
+        selector: (_, app) =>
+            '${app.settings.language}_${app.settings.themeMode}',
+        builder: (_, key, __) {
+          final sep = key.indexOf('_');
+          final themeMode = key.substring(sep + 1);
           return MaterialApp(
+            key: ValueKey('app_$key'),
             title: Constants.appName,
             theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: _parseThemeMode(themeMode),
             debugShowCheckedModeBanner: false,
             home: const HomeScreen(),
           );

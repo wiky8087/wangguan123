@@ -93,10 +93,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: const [
-                      Icon(Icons.auto_awesome, color: Colors.indigo),
-                      SizedBox(width: 8),
-                      Text(Constants.appName,
+                    children: [
+                      Icon(Icons.auto_awesome,
+                          color: Theme.of(context).colorScheme.primary),
+                      const SizedBox(width: 8),
+                      const Text(Constants.appName,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     ],
@@ -136,9 +137,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final r = _result!;
     if (r.status == UpdateStatus.failed) {
       return Card(
-        color: Colors.red.shade50,
+        color: Theme.of(context).colorScheme.errorContainer,
         child: ListTile(
-          leading: const Icon(Icons.error, color: Colors.red),
+          leading: Icon(Icons.error,
+              color: Theme.of(context).colorScheme.error),
           title: Text(t.t('检查更新失败')),
           subtitle: Text(r.error ?? t.t('未知')),
         ),
@@ -146,9 +148,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
     }
     if (!r.hasUpdate) {
       return Card(
-        color: Colors.green.shade50,
+        color: const Color(0xFF4CAF50).withValues(alpha: 0.12),
         child: ListTile(
-          leading: const Icon(Icons.check_circle, color: Colors.green),
+          leading: const Icon(Icons.check_circle, color: Color(0xFF4CAF50)),
           title: Text(t.t('已是最新')),
           subtitle: Text('${t.t('最新版本')}：${release?.displayVersion ?? ''}'),
         ),
@@ -168,7 +170,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
             Row(
               children: [
                 Icon(Icons.new_releases,
-                    color: r.mustUpdate ? Colors.red : Colors.indigo),
+                    color: r.mustUpdate
+                        ? Theme.of(context).colorScheme.error
+                        : Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(t.t('发现新版本'),
@@ -178,7 +182,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 if (r.mustUpdate)
                   Chip(
                     label: Text(t.t('强制更新')),
-                    backgroundColor: Colors.red.shade100,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.errorContainer,
                   ),
               ],
             ),
@@ -207,12 +212,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
               )
             else if (_downloadError != null)
               Text('${t.t('下载失败')}：$_downloadError',
-                  style: const TextStyle(color: Colors.red))
+                  style: TextStyle(color: Theme.of(context).colorScheme.error))
             else if (_downloadedPath != null)
               Text('${t.t('已下载，可安装')}：$_downloadedPath')
             else if (artifact == null || artifact.url.isEmpty)
               Text(t.t('该版本没有提供当前平台的安装包'),
-                  style: const TextStyle(color: Colors.orange))
+                  style: const TextStyle(color: Color(0xFFFF9800)))
             else
               SizedBox(
                 width: double.infinity,
@@ -231,12 +236,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
   Widget _storeHint(L10n t, String url) => Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.blue.shade50,
+          color: const Color(0xFF2196F3).withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           children: [
-            const Icon(Icons.open_in_new, color: Colors.blue),
+            const Icon(Icons.open_in_new, color: Color(0xFF2196F3)),
             const SizedBox(width: 8),
             Expanded(child: Text(t.t('该平台需前往应用商店更新'))),
             TextButton(
@@ -255,7 +260,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
           children: [
             SizedBox(
               width: 96,
-              child: Text(k, style: const TextStyle(color: Colors.grey)),
+              child: Text(k,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
             ),
             Expanded(child: Text(v, style: const TextStyle(fontWeight: FontWeight.w500))),
           ],

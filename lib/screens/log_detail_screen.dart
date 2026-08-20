@@ -14,10 +14,13 @@ class LogDetailScreen extends StatelessWidget {
 
   const LogDetailScreen({Key? key, required this.log}) : super(key: key);
 
-  Color get _statusColor {
-    if (log.isError) return AppTheme.danger;
-    if (log.statusCode >= 400 && log.statusCode < 500) return AppTheme.warning;
-    return AppTheme.success;
+  Color _statusColor(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    if (log.isError) return scheme.error;
+    if (log.statusCode >= 400 && log.statusCode < 500) {
+      return const Color(0xFFFF9800);
+    }
+    return const Color(0xFF4CAF50);
   }
 
   @override
@@ -33,7 +36,7 @@ class LogDetailScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 decoration: BoxDecoration(
-                  color: _statusColor.withValues(alpha: 0.14),
+                  color: _statusColor(context).withValues(alpha: 0.14),
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
@@ -42,7 +45,7 @@ class LogDetailScreen extends StatelessWidget {
                     fontFamily: AppTheme.monoFontFamily,
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: _statusColor,
+                    color: _statusColor(context),
                   ),
                 ),
               ),
@@ -53,76 +56,86 @@ class LogDetailScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
         children: [
-          _section(L10n.tr('请求'), [
-            _kv('Method', log.method),
-            _kv('Path', log.path, mono: true, wrap: true),
+          _section(context, L10n.tr('请求'), [
+            _kv(context, 'Method', log.method),
+            _kv(context, 'Path', log.path, mono: true, wrap: true),
           ]),
-          _section(L10n.tr('路由'), [
-            _kv('服务商', log.provider),
-            _kv('Key 名称', log.keyName),
-            _kv('Key', log.keyMasked, mono: true),
-            _kv('模型', log.model, mono: true, wrap: true),
+          _section(context, L10n.tr('路由'), [
+            _kv(context, '服务商', log.provider),
+            _kv(context, 'Key 名称', log.keyName),
+            _kv(context, 'Key', log.keyMasked, mono: true),
+            _kv(context, '模型', log.model, mono: true, wrap: true),
             if (log.actualModel.isNotEmpty &&
                 log.actualModel != log.model)
-              _kv('实际模型', log.actualModel, mono: true, wrap: true),
+              _kv(context, '实际模型', log.actualModel, mono: true, wrap: true),
             if (log.ruleName != null && log.ruleName!.isNotEmpty)
-              _kv('路由规则', log.ruleName!),
+              _kv(context, '路由规则', log.ruleName!),
           ]),
-          _section(L10n.tr('结果'), [
-            _kv('状态码', '${log.statusCode}', mono: true),
-            _kv('耗时', Formatters.formatDuration(log.durationMs)),
+          _section(context, L10n.tr('结果'), [
+            _kv(context, '状态码', '${log.statusCode}', mono: true),
+            _kv(context, '耗时', Formatters.formatDuration(log.durationMs)),
             if (log.totalTokens > 0) ...[
-              _kv('Prompt tokens', Formatters.formatNumber(log.promptTokens),
+              _kv(context, 'Prompt tokens',
+                  Formatters.formatNumber(log.promptTokens),
                   mono: true),
-              _kv('Completion tokens',
+              _kv(context, 'Completion tokens',
                   Formatters.formatNumber(log.completionTokens),
                   mono: true),
-              _kv('总 tokens', Formatters.formatNumber(log.totalTokens),
+              _kv(context, '总 tokens',
+                  Formatters.formatNumber(log.totalTokens),
                   mono: true),
             ],
-            _kv('请求字节', Formatters.formatNumber(log.requestBytes),
+            _kv(context, '请求字节',
+                Formatters.formatNumber(log.requestBytes),
                 mono: true),
-            _kv('响应字节', Formatters.formatNumber(log.responseBytes),
+            _kv(context, '响应字节',
+                Formatters.formatNumber(log.responseBytes),
                 mono: true),
           ]),
-          _section(L10n.tr('标记'), [
-            _kv('流式', log.streaming ? '是' : '否'),
-            _kv('重试次数', '${log.retries}'),
-            _kv('命中缓存', log.cached ? '是' : '否'),
-            _kv('限流维度',
+          _section(context, L10n.tr('标记'), [
+            _kv(context, '流式', log.streaming ? '是' : '否'),
+            _kv(context, '重试次数', '${log.retries}'),
+            _kv(context, '命中缓存', log.cached ? '是' : '否'),
+            _kv(context, '限流维度',
                 log.rateLimited.isEmpty ? '无' : log.rateLimited),
           ]),
           if (log.error != null && log.error!.isNotEmpty)
-            _section(L10n.tr('错误'), [
+            _section(context, L10n.tr('错误'), [
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.dangerSoft,
-                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                  border: Border.all(color: AppTheme.danger.withValues(alpha: 0.3)),
+                  color: Theme.of(context).colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(12.0),
+                  border: Border.all(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .error
+                          .withValues(alpha: 0.3)),
                 ),
                 child: SelectableText(
                   log.error!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: AppTheme.danger,
+                    color: Theme.of(context).colorScheme.error,
                     fontFamily: AppTheme.monoFontFamily,
                     height: 1.5,
                   ),
                 ),
               ),
             ]),
-          _section(L10n.tr('时间'), [
-            _kv('时间戳', Formatters.formatDateTime(log.timestamp), mono: true),
-            _kv('日志 ID', log.id, mono: true, wrap: true),
+          _section(context, L10n.tr('时间'), [
+            _kv(context, '时间戳',
+                Formatters.formatDateTime(log.timestamp),
+                mono: true),
+            _kv(context, '日志 ID', log.id, mono: true, wrap: true),
           ]),
         ],
       ),
     );
   }
 
-  Widget _section(String title, List<Widget> children) {
+  Widget _section(BuildContext context, String title, List<Widget> children) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
       child: Column(
@@ -130,10 +143,10 @@ class LogDetailScreen extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w700,
-              color: AppTheme.text2,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
           const SizedBox(height: 8),
@@ -141,9 +154,10 @@ class LogDetailScreen extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-              border: Border.all(color: AppTheme.border),
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(12.0),
+              border:
+                  Border.all(color: Theme.of(context).colorScheme.outlineVariant),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,7 +169,8 @@ class LogDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _kv(String label, String value, {bool mono = false, bool wrap = false}) {
+  Widget _kv(BuildContext context, String label, String value,
+      {bool mono = false, bool wrap = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -165,7 +180,9 @@ class LogDetailScreen extends StatelessWidget {
             width: 118,
             child: Text(
               label,
-              style: const TextStyle(fontSize: 13, color: AppTheme.text3),
+              style: TextStyle(
+                  fontSize: 13,
+                  color: Theme.of(context).colorScheme.outline),
             ),
           ),
           Expanded(
@@ -173,7 +190,7 @@ class LogDetailScreen extends StatelessWidget {
               value,
               style: TextStyle(
                 fontSize: 13,
-                color: AppTheme.text,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontFamily: mono ? AppTheme.monoFontFamily : null,
                 fontWeight: mono ? FontWeight.w600 : FontWeight.w400,
               ),
