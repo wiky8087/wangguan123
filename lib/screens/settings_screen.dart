@@ -630,13 +630,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ]),
           _section(t.t('外观与安全')),
           _card([
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-              title: Text(
-                L10n.tr('主题模式'),
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w600),
-              ),
+            _row(
+              title: t.t('主题模式'),
               trailing: _select<String>(
                 value: _themeMode,
                 items: [
