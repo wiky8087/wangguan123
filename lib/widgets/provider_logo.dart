@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:relaygo/config/theme.dart';
+import 'package:relaygo/theme/theme_ext.dart';
 
 /// 提供商小 Logo
 ///
@@ -47,15 +47,15 @@ class ProviderLogo extends StatelessWidget {
             width: size,
             height: size,
             fit: BoxFit.contain,
-            errorBuilder: (_, __, ___) => _fallback,
+            errorBuilder: (_, __, ___) => _fallback(context),
           ),
         ),
       );
     }
-    return _fallback;
+    return _fallback(context);
   }
 
-  Widget get _fallback {
+  Widget _fallback(BuildContext context) {
     final letter = (providerName ?? providerId).isNotEmpty
         ? (providerName ?? providerId)[0].toUpperCase()
         : '?';
@@ -63,7 +63,7 @@ class ProviderLogo extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: AppTheme.surface2,
+        color: context.surfaceElevated,
         borderRadius: BorderRadius.circular(6),
       ),
       alignment: Alignment.center,
@@ -72,7 +72,7 @@ class ProviderLogo extends StatelessWidget {
         style: TextStyle(
           fontSize: size * 0.5,
           fontWeight: FontWeight.w700,
-          color: AppTheme.text2,
+          color: context.textSecondary,
         ),
       ),
     );

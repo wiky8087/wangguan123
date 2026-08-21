@@ -632,7 +632,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _card([
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-              leading: const Icon(Icons.dark_mode_outlined, size: 20),
               title: Text(
                 L10n.tr('主题模式'),
                 style: const TextStyle(
@@ -651,10 +650,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onChanged: (v) async {
                   if (v == null) return;
                   setState(() => _themeMode = v);
-                  final app =
-                      Provider.of<AppState>(context, listen: false);
-                  await app
-                      .saveSettings(app.settings.copyWith(themeMode: v));
+                  final app = Provider.of<AppState>(context, listen: false);
+                  await app.saveSettings(app.settings.copyWith(themeMode: v));
                 },
               ),
             ),

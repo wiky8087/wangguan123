@@ -17,7 +17,7 @@ typedef AlertEmitter = void Function(Alert alert);
 /// 设计为「纯逻辑」：直接修改传入的 [ApiKey] 并返回产生的告警，
 /// 由调用方（AppState / ProxyServer）负责持久化 key 与派发告警。
 class QuotaMonitor {
-  final UserSettings settings;
+  UserSettings settings;
   final AlertEmitter? onAlert;
 
   /// 已告警状态（避免重复打扰；key 日滚动时清理）

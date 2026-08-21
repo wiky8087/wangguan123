@@ -688,7 +688,7 @@ class AppState extends ChangeNotifier {
     proxy.loadBalanceStrategy = s.loadBalanceStrategy;
     logService.maxEntries = s.maxLogEntries;
     logService.retentionDays = s.logRetentionDays;
-    quotaMonitor = QuotaMonitor(settings: s, onAlert: _handleAlert);
+    quotaMonitor.settings = s;
     updateService.feedUrl = s.updateFeedUrl;
     updateService.channel = s.updateChannel;
     L10n.instance.language = s.language;
@@ -729,17 +729,6 @@ class AppState extends ChangeNotifier {
   Future<int> cleanupLogs() => logService.cleanup();
 }
 
-ThemeMode _parseThemeMode(String? mode) {
-  switch (mode) {
-    case 'light':
-      return ThemeMode.light;
-    case 'dark':
-      return ThemeMode.dark;
-    default:
-      return ThemeMode.system;
-  }
-}
-
 /// 应用根组件
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -748,18 +737,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => AppState(),
-      child: Selector<AppState, String>(
-        selector: (_, app) =>
-            '${app.settings.language}_${app.settings.themeMode}',
-        builder: (_, key, __) {
-          final sep = key.indexOf('_');
-          final themeMode = key.substring(sep + 1);
+      child: Consumer<AppState>(
+        builder: (ctx, app, _) {
+          final mode = app.settings.themeMode;
+          final themeMode = mode == 'dark'
+              ? ThemeMode.dark
+              : mode == 'light'
+                  ? ThemeMode.light
+                  : ThemeMode.system;
           return MaterialApp(
-            key: ValueKey('app_$key'),
             title: Constants.appName,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
-            themeMode: _parseThemeMode(themeMode),
+            themeMode: themeMode,
             debugShowCheckedModeBanner: false,
             home: const HomeScreen(),
           );

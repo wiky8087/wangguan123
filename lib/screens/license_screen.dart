@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:relaygo/config/constants.dart';
 import 'package:relaygo/config/theme.dart';
+import 'package:relaygo/theme/theme_ext.dart';
 import 'package:relaygo/l10n/app_strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -142,7 +143,8 @@ class LicenseScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(r.author,
-                          style: const TextStyle(fontSize: 11, color: AppTheme.text3)),
+                          style: TextStyle(
+                              fontSize: 11, color: context.textHint)),
                       Text(r.license,
                           style: const TextStyle(
                               fontSize: 11,
@@ -158,7 +160,7 @@ class LicenseScreen extends StatelessWidget {
           Center(
             child: Text(
               'AGPL-3.0 · ${t.t('仅供学习与个人使用')}',
-              style: const TextStyle(fontSize: 12, color: AppTheme.text3),
+              style: TextStyle(fontSize: 12, color: context.textHint),
             ),
           ),
           const SizedBox(height: 24),
@@ -182,7 +184,7 @@ class LicenseScreen extends StatelessWidget {
             if (subtitle != null) ...[
               const SizedBox(height: 4),
               Text(subtitle,
-                  style: const TextStyle(fontSize: 12, color: AppTheme.text3)),
+                  style: TextStyle(fontSize: 12, color: context.textHint)),
             ],
             const SizedBox(height: 8),
             ...children,
@@ -199,7 +201,7 @@ class LicenseScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('$k：',
-              style: const TextStyle(fontSize: 13, color: AppTheme.text2)),
+              style: TextStyle(fontSize: 13, color: context.textSecondary)),
           const SizedBox(width: 6),
           Expanded(
               child: Text(v,
@@ -222,7 +224,7 @@ class LicenseScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(d.author,
-              style: const TextStyle(fontSize: 11, color: AppTheme.text3)),
+              style: TextStyle(fontSize: 11, color: context.textHint)),
           Text(d.license,
               style: const TextStyle(
                   fontSize: 11, color: AppTheme.accent, fontWeight: FontWeight.bold)),
